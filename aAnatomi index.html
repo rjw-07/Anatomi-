@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anatomy - by Iana</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES & THEMES (SOFT COQUETTE STYLE) --- */
+        :root {
+            --bg-default: #fcf8f6;
+            --bg-gradient: radial-gradient(circle at center, #fbf2ef 0%, #f5e6e1 100%);
+            --text-main: #4a3e3d;
+            --text-muted: #8a7a78;
+            --accent: #d4a396; /* Soft Rose Gold / Vintage Pink */
+            --glass-bg: rgba(255, 255, 255, 0.55);
+            --glass-border: rgba(212, 163, 150, 0.25);
+            --shadow-glow: rgba(212, 163, 150, 0.15);
+            --transition-speed: 0.6s;
+        }
+
+        /* Tema Khusus Tiap Ruang */
+        body.theme-asal-usul {
+            --bg-gradient: radial-gradient(circle at center, #fcedeb 0%, #edd1cc 100%);
+            --accent: #cd857a;
+            --glass-bg: rgba(255, 245, 244, 0.65);
+            --glass-border: rgba(205, 133, 122, 0.3);
+            --shadow-glow: rgba(205, 133, 122, 0.2);
+        }
+
+        body.theme-sel-jaringan {
+            --bg-gradient: radial-gradient(circle at center, #f3f6f2 0%, #dae3d7 100%);
+            --accent: #7d967a;
+            --glass-bg: rgba(245, 248, 244, 0.65);
+            --glass-border: rgba(125, 150, 122, 0.3);
+            --shadow-glow: rgba(125, 150, 122, 0.2);
+        }
+
+        body.theme-sistem-organ {
+            --bg-gradient: radial-gradient(circle at center, #edf2f7 0%, #cbd9e6 100%);
+            --accent: #6b8fa8;
+            --glass-bg: rgba(242, 246, 250, 0.65);
+            --glass-border: rgba(107, 143, 168, 0.3);
+            --shadow-glow: rgba(107, 143, 168, 0.2);
+        }
+
+        body.theme-manusia-utuh {
+            --bg-gradient: radial-gradient(circle at center, #f5edf7 0%, #dacbe0 100%);
+            --accent: #9275a1;
+            --glass-bg: rgba(247, 242, 250, 0.65);
+            --glass-border: rgba(146, 117, 161, 0.3);
+            --shadow-glow: rgba(146, 117, 161, 0.2);
+        }
+
+        body.theme-homeostasis {
+            --bg-gradient: radial-gradient(circle at center, #fdfaf2 0%, #ebe2ce 100%);
+            --accent: #b59952;
+            --glass-bg: rgba(254, 252, 247, 0.65);
+            --glass-border: rgba(181, 153, 82, 0.3);
+            --shadow-glow: rgba(181, 153, 82, 0.2);
+        }
+
+        body.theme-fase-hidup {
+            --bg-gradient: radial-gradient(circle at center, #faf5f5 0%, #e8dad9 100%);
+            --accent: #a87674;
+            --glass-bg: rgba(253, 250, 250, 0.65);
+            --glass-border: rgba(168, 118, 116, 0.3);
+            --shadow-glow: rgba(168, 118, 116, 0.2);
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+            transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
+        }
+
+        header {
+            text-align: center;
+            padding: 3.5rem 1rem 1.5rem;
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.2rem;
+            letter-spacing: 0.6rem;
+            color: var(--text-main);
+            text-transform: uppercase;
+            text-shadow: 0 2px 10px var(--shadow-glow);
+        }
+
+        header p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--accent);
+            letter-spacing: 0.15rem;
+            margin-top: 0.5rem;
+        }
+
+        main {
+            max-width: 1050px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem;
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .section-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .section-view.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- DASHBOARD / HOME PANEL --- */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .menu-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px var(--shadow-glow);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--glass-border);
+            color: var(--accent);
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .menu-card h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+            letter-spacing: 0.05rem;
+        }
+
+        .menu-card p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* --- CONTENT TEMPLATE STYLING --- */
+        .btn-back {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .content-wrapper {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.03);
+            line-height: 1.8;
+        }
+
+        .content-wrapper h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .intro-quote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            border-left: 2px solid var(--accent);
+            padding-left: 1.2rem;
+        }
+
+        .materi-block h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 1.8rem 0 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .materi-block h4::before {
+            content: '❀';
+            color: var(--accent);
+        }
+
+        .materi-block p {
+            margin-bottom: 1.2rem;
+            color: #594c4b;
+            font-size: 0.98rem;
+            text-align: justify;
+        }
+
+        .custom-list {
+            list-style: none;
+            margin-left: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .custom-list li {
+            margin-bottom: 0.6rem;
+            position: relative;
+            padding-left: 1.5rem;
+            color: #594c4b;
+            font-size: 0.98rem;
+        }
+
+        .custom-list li::before {
+            content: '♡';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* --- SUB-NAVIGATION FOR ORGAN SYSTEMS --- */
+        .organ-system-container {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .system-tabs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 240px;
+            max-width: 240px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid var(--glass-border);
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            text-align: left;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: var(--glass-bg);
+            border-color: var(--accent);
+            padding-left: 1.6rem;
+            box-shadow: 0 4px 12px var(--shadow-glow);
+        }
+
+        .tab-btn.active {
+            font-weight: 600;
+            color: #fff;
+            background: var(--accent);
+        }
+
+        .system-display-panel {
+            flex-grow: 1;
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 2rem;
+            min-height: 450px;
+            position: relative;
+        }
+
+        .system-content {
+            display: none;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .system-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .system-content h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            border-bottom: 1px dashed var(--glass-border);
+            padding-bottom: 0.5rem;
+        }
+
+        /* --- VISUAL ELEMENTS --- */
+        .visual-container {
+            width: 100%;
+            height: 180px;
+            background: #fdf6f4;
+            border: 1px dashed var(--glass-border);
+            border-radius: 12px;
+            margin: 1.8rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sperm-race-visual {
+            width: 100%; height: 100%; position: relative;
+        }
+        .egg-cell {
+            position: absolute; right: -25px; top: 50%; transform: translateY(-50%);
+            width: 110px; height: 110px;
+            background: radial-gradient(circle, #f5cdcb 0%, #e8b0ab 70%, transparent 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 25px rgba(232, 176, 171, 0.4);
+        }
+        .sperm {
+            position: absolute; width: 10px; height: 6px; background: #ba938f; border-radius: 50%;
+        }
+        .sperm::after {
+            content: ''; position: absolute; right: 10px; top: 2px; width: 16px; height: 2px; background: rgba(186, 147, 143, 0.5); border-radius: 50%;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(212, 163, 150, 0.15);
+            margin-top: 3rem;
+        }
+
+        footer .quote-ipa {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            margin-bottom: 0.6rem;
+            max-width: 600px;
+            margin-left: auto; margin-right: auto;
+        }
+
+        footer .signature {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.25rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* --- RESPONSIVE BREAKPOINTS --- */
+        @media (max-width: 850px) {
+            .organ-system-container { flex-direction: column; }
+            .system-tabs-list { min-width: 100%; max-width: 100%; }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.4rem; letter-spacing: 0.4rem; }
+            .content-wrapper { padding: 1.8rem; }
+            .content-wrapper h2 { font-size: 1.6rem; }
+            .grid-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <h1>anatomy</h1>
+        <p>- by iana</p>
+    </header>
+
+    <main>
+        
+        <section id="dashboard" class="section-view active">
+            <div class="grid-cards">
+                <div class="menu-card" onclick="navigateTo('asal-usul', 'theme-asal-usul')">
+                    <div class="card-icon">🪞</div>
+                    <h3>01. Asal Usul</h3>
+                    <p>The Great Race: Perjalanan kosmik jutaan sel menuju satu takdir kehidupan.</p>
+                </div>
+
+                <div class="menu-card" onclick="navigateTo('sel-jaringan', 'theme-sel-jaringan')">
+                    <div class="card-icon">🩰</div>
+                    <h3>02. Sel & Jaringan</h3>
+                    <p>Unit fungsional terkecil dan arsitektur mikroskopis tubuh manusia.</p>
+                </div>
+
+                <div class="menu-card" onclick="navigateTo('sistem-organ', 'theme-sistem-organ')">
+                    <div class="card-icon">🕊️</div>
+                    <h3>03. Sistem Organ</h3>
+                    <p>Harmoni orkestra tubuh: dari napas pertama hingga pembuangan sisa kehidupan.</p>
+                </div>
+
+                <div class="menu-card" onclick="navigateTo('manusia-utuh', 'theme-manusia-utuh')">
+                    <div class="card-icon">📜</div>
+                    <h3>04. Manusia Utuh</h3>
+                    <p>Kode genetik unik dan manifestasi kesadaran individu yang berbeda.</p>
+                </div>
+
+                <div class="menu-card" onclick="navigateTo('homeostasis', 'theme-homeostasis')">
+                    <div class="card-icon">🗝️</div>
+                    <h3>05. Homeostasis</h3>
+                    <p>Sensorik & Keseimbangan: Cara ajaib tubuh menjaga stabilitas di tengah badai dunia luar.</p>
+                </div>
+
+                <div class="menu-card" onclick="navigateTo('fase-hidup', 'theme-fase-hidup')">
+                    <div class="card-icon">⏳</div>
+                    <h3>06. Fase Kehidupan</h3>
+                    <p>The Art of Aging: Siklus waktu biologis manusia dari fajar bayi hingga senja usia.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="asal-usul" class="section-view">
+            <button class="btn-back" onclick="navigateHome()">← Kembali</button>
+            <div class="content-wrapper">
+                <h2>01. Asal Usul: Perjuangan Hebat Dimulai</h2>
+                <div class="intro-quote">"Dari jutaan probabilitas eksistensi, kamulah satu-satunya pemenang yang berhasil menembus batas kesunyian."</div>
+                <div class="materi-block">
+                    <p>Setiap kehidupan manusia tidak dimulai dari kenyamanan, melainkan dari sebuah kompetisi paling murni dan masif di alam semesta. Kisah ini berawal ketika sekitar 200 hingga 300 juta sel sperma dilepaskan ke dalam saluran reproduksi wanita. Mereka bergerak melawan arus cairan tubuh demi satu tujuan tunggal: <strong>Sel Telur (Oosit Sekunder)</strong>.</p>
+                    
+                    <div class="visual-container">
+                        <div class="sperm-race-visual">
+                            <div class="egg-cell"></div>
+                            <div class="sperm" style="top:25%; left:10%;"></div>
+                            <div class="sperm" style="top:50%; left:25%;"></div>
+                            <div class="sperm" style="top:75%; left:15%;"></div>
+                        </div>
+                    </div>
+
+                    <h4>Proses Fertilisasi</h4>
+                    <p>Sperma menggunakan ekornya (flagel) untuk berenang dan bagian kepalanya (akrosom) yang mengandung enzim litik untuk menembus lapisan pelindung sel telur (zona pelusida). Hanya ada <strong>satu</strong> sperma terbaik yang mampu menginduksi perubahan kimiawi seketika pada dinding sel telur, mengunci jutaan sperma lainnya di luar untuk selamanya.</p>
+                    
+                    <h4>Pembentukan Zigot</h4>
+                    <p>Ketika inti sel sperma (23 kromosom) melebur dengan inti sel telur (23 kromosom), terciptalah sebuah sel tunggal diploid baru bernama <strong>Zigot</strong> (46 kromosom). Di titik mikro inilah, seluruh cetak biru biologis ditentukan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sel-jaringan" class="section-view">
+            <button class="btn-back" onclick="navigateHome()">← Kembali</button>
+            <div class="content-wrapper">
+                <h2>02. Sel & Jaringan: Fondasi Mikroskopis</h2>
+                <div class="intro-quote">"Di dalam ruang-ruang tak kasat mata, triliunan pekerja sibuk membangun katedral bernama tubuhmu."</div>
+                <div class="materi-block">
+                    <h4>A. Sel sebagai Unit Terkecil</h4>
+                    <p>Zigot yang terbentuk mulai membelah diri (mitosis) secara eksponensial menjadi morula, blastula, gastrula, hingga membentuk triliunan sel spesifik. Bagian-bagian sel utama meliputi:</p>
+                    <ul class="custom-list">
+                        <li><strong>Membran Sel:</strong> Gerbang selektif yang mengatur lalu lintas zat masuk dan keluar sel.</li>
+                        <li><strong>Nukleus (Inti Sel):</strong> Perpustakaan agung yang menyimpan seluruh instruksi kerja berupa DNA.</li>
+                        <li><strong>Mitokondria:</strong> Pembangkit energi seluler yang memproduksi ATP melalui respirasi sel.</li>
+                        <li><strong>Sitoplasma:</strong> Cairan sel tempat organel-organel mengapung dan melangsungkan metabolisme.</li>
+                        <li><strong>Ribosom & Retikulum Endoplasma:</strong> Pabrik sintesis protein dan transportasi internal tubuh sel.</li>
+                    </ul>
+
+                    <h4>B. Kumpulan Sel: Jaringan (Tissue)</h4>
+                    <p>Sel-sel dengan bentuk dan fungsi yang sama mengelompok membentuk struktur yang lebih besar yang disebut jaringan. Tubuh manusia ditopang oleh 4 jaringan utama:</p>
+                    <ul class="custom-list">
+                        <li><strong>Jaringan Epitel:</strong> Lapisan pelindung luar tubuh (kulit) dan pembatas organ dalam.</li>
+                        <li><strong>Jaringan Ikat:</strong> Pengikat dan penyokong organ (termasuk darah, tulang, dan lemak).</li>
+                        <li><strong>Jaringan Otot:</strong> Mesin penggerak mekanis (otot lurik, otot polos, dan otot jantung).</li>
+                        <li><strong>Jaringan Saraf:</strong> Jaringan komunikasi kilat yang menghantarkan impuls sensorik dan motorik.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="sistem-organ" class="section-view">
+            <button class="btn-back" onclick="navigateHome()">← Kembali</button>
+            <div class="content-wrapper">
+                <h2>03. Orkestra Sistem Organ Manusia</h2>
+                <div class="intro-quote">"Klik pada list ruang sistem di sebelah kiri untuk menelusuri detail arsitektur mekanis internal tubuh kita secara mendalam."</div>
+                
+                <div class="organ-system-container">
+                    <div class="system-tabs-list">
+                        <button class="tab-btn active" onclick="switchSystem('respirasi', this)">1. Sistem Respirasi</button>
+                        <button class="tab-btn" onclick="switchSystem('sirkulasi', this)">2. Sistem Sirkulasi</button>
+                        <button class="tab-btn" onclick="switchSystem('pencernaan', this)">3. Sistem Pencernaan</button>
+                        <button class="tab-btn" onclick="switchSystem('ekskresi', this)">4. Sistem Ekskresi</button>
+                        <button class="tab-btn" onclick="switchSystem('saraf', this)">5. Sistem Saraf</button>
+                        <button class="tab-btn" onclick="switchSystem('endokrin', this)">6. Sistem Endokrin</button>
+                        <button class="tab-btn" onclick="switchSystem('gerak', this)">7. Sistem Lokomotor</button>
+                        <button class="tab-btn" onclick="switchSystem('imunitas', this)">8. Sistem Imunitas</button>
+                        <button class="tab-btn" onclick="switchSystem('integumen', this)">9. Sistem Integumen</button>
+                        <button class="tab-btn" onclick="switchSystem('reproduksi', this)">10. Sistem Reproduksi</button>
+                    </div>
+
+                    <div class="system-display-panel">
+                        <div id="sys-respirasi" class="system-content active">
+                            <h3>1. Sistem Respirasi (Pernapasan)</h3>
+                            <p><strong>Fungsi Utama:</strong> Menyediakan oksigen ($O_2$) untuk respirasi seluler seluruh jaringan tubuh dan membuang karbon dioksida ($CO_2$) sisa pembakaran.</p>
+                            <p><strong>Organ Penyusun:</strong> Rongga Hidung, Faring, Laring, Trakea, Bronkus, Bronkiolus, dan Paru-Paru (Alveolus).</p>
+                            <p><strong>Mekanisme Detail:</strong> Udara disaring silia hidung, melewati trakea, menuju alveolus. Di alveolus terjadi pertukaran gas secara difusi melintasi kapiler. Oksigen diikat hemoglobin menjadi oksihemoglobin, sedangkan $CO_2$ dibuang saat ekspirasi.</p>
+                        </div>
+
+                        <div id="sys-sirkulasi" class="system-content">
+                            <h3>2. Sistem Sirkulasi (Kardiovaskular)</h3>
+                            <p><strong>Fungsi Utama:</strong> Media transportasi logistik internal yang mengedarkan nutrisi, oksigen, hormon, serta sel darah putih pertahanan.</p>
+                            <p><strong>Organ Penyusun:</strong> Jantung (Atrium & Ventrikel), Pembuluh Darah (Arteri, Vena, Kapiler), dan Darah.</p>
+                            <p><strong>Mekanisme Detail:</strong> Jantung memompa darah ke peredaran darah kecil (ke paru-paru) dan peredaran darah besar (ke seluruh tubuh). Arteri membawa darah kaya oksigen keluar, sementara vena membawa darah sisa kembali ke jantung.</p>
+                        </div>
+
+                        <div id="sys-pencernaan" class="system-content">
+                            <h3>3. Sistem Pencernaan (Digesti)</h3>
+                            <p><strong>Fungsi Utama:</strong> Memecah molekul makanan kompleks menjadi bentuk sederhana makro-mikro agar larut dan siap diserap usus.</p>
+                            <p><strong>Organ Penyusun:</strong> Mulut, Esofagus, Lambung, Usus Halus, Usus Besar, Rektum, Anus, serta Hati dan Pankreas.</p>
+                            <p><strong>Mekanisme Detail:</strong> Dilumatkan di mulut dan lambung menggunakan asam hcl serta pepsin, lalu nutrisi diserap di vili usus halus menuju aliran darah pembuluh kapiler.</p>
+                        </div>
+
+                        <div id="sys-ekskresi" class="system-content">
+                            <h3>4. Sistem Ekskresi (Pembuangan)</h3>
+                            <p><strong>Fungsi Utama:</strong> Menjaga homeostasis dengan membuang sisa metabolisme racun agar tidak merusak jaringan internal tubuh.</p>
+                            <p><strong>Organ Penyusun:</strong> Ginjal, Kulit, Paru-paru, dan Hati.</p>
+                            <p><strong>Mekanisme Detail:</strong> Ginjal menyaring darah lewat nefron untuk menghasilkan urine. Kulit membuang air dan garam lewat keringat, paru-paru mengeluarkan $CO_2$, dan hati merombak sel darah mati.</p>
+                        </div>
+
+                        <div id="sys-saraf" class="system-content">
+                            <h3>5. Sistem Saraf (Komando Kilat)</h3>
+                            <p><strong>Fungsi Utama:</strong> Menerima rangsang sensorik dari lingkungan sekitar, mengolahnya di pusat kendali otak, dan mengirim perintah motorik instan.</p>
+                            <p><strong>Organ Penyusun:</strong> Otak Besar, Otak Kecil, Sumsum Tulang Belakang, dan Jaringan Saraf Tepi (Neuron).</p>
+                            <p><strong>Mekanisme Detail:</strong> Stimulus diubah menjadi impuls listrik yang melompati sinapsis sel saraf dibantu zat neurotransmiter menuju pusat saraf pusat untuk melahirkan gerakan atau persepsi.</p>
+                        </div>
+
+                        <div id="sys-endokrin" class="system-content">
+                            <h3>6. Sistem Endokrin (Regulasi Hormonal)</h3>
+                            <p><strong>Fungsi Utama:</strong> Mengendalikan fungsi jangka panjang tubuh seperti pertumbuhan fisik, sirkulasi reproduksi, metabolisme, dan regulasi mood.</p>
+                            <p><strong>Organ Penyusun:</strong> Kelenjar Hipofisis, Tiroid, Adrenal, Pankreas, Timus, dan Gonad (Testis/Ovarium).</p>
+                            <p><strong>Mekanisme Detail:</strong> Memproduksi kurir kimia organik murni bernama *Hormon* yang dialirkan via sirkulasi darah untuk memicu aktivitas sel target spesifik.</p>
+                        </div>
+
+                        <div id="sys-gerak" class="system-content">
+                            <h3>7. Sistem Lokomotor (Muskuloskeletal)</h3>
+                            <p><strong>Fungsi Utama:</strong> Memberikan struktur mekanis tegak tubuh, proteksi organ vital internal, serta memicu lokomosi mobilitas pergerakan fisik.</p>
+                            <p><strong>Organ Penyusun:</strong> Tulang (Skeleton), Otot Lurik, Sendi, Tendon, dan Ligamen.</p>
+                            <p><strong>Mekanisme Detail:</strong> Tulang bertindak sebagai pengungkit kaku pasif, sedangkan otot berkontraksi (pergeseran aktin miosin) menarik tendon untuk menggerakkan sendi.</p>
+                        </div>
+
+                        <div id="sys-imunitas" class="system-content">
+                            <h3>8. Sistem Imunitas & Limfatik</h3>
+                            <p><strong>Fungsi Utama:</strong> Benteng militer pertahanan tubuh yang membedakan komponen asli (*self*) dengan ancaman patogen mikroba luar (*non-self*).</p>
+                            <p><strong>Organ Penyusun:</strong> Sel Darah Putih (Leukosit), Limpa, Kelenjar Timus, Sumsum Tulang, dan Cairan Limfa.</p>
+                            <p><strong>Mekanisme Detail:</strong> Sel makrofag menelan bakteri, sementara sel Limfosit T dan B mengenali serta menciptakan cetakan antibodi pengikat antigen musuh.</p>
+                        </div>
+
+                        <div id="sys-integumen" class="system-content">
+                            <h3>9. Sistem Integumen (Pelindung Luar)</h3>
+                            <p><strong>Fungsi Utama:</strong> Mencegah evaporasi dehidrasi cairan internal, proteksi trauma fisik makro, radiasi UV, serta mendeteksi suhu eksternal.</p>
+                            <p><strong>Organ Penyusun:</strong> Kulit (Epidermis, Dermis, Hipodermis), Rambut, dan Kuku.</p>
+                            <p><strong>Mekanisme Detail:</strong> Epidermis luar dipenuhi zat keratin kedap air dan zat melanosit pigmen pelindung matahari, sedangkan dermis menampung ujung sensor penerima rangsang sentuhan.</p>
+                        </div>
+
+                        <div id="sys-reproduksi" class="system-content">
+                            <h3>10. Sistem Reproduksi (Estafet Kehidupan)</h3>
+                            <p><strong>Fungsi Utama:</strong> Melangsungkan proses pembelahan meiosis pembentukan gamet haploid demi menjaga kontinuitas eksistensi generasi spesies.</p>
+                            <p><strong>Organ Penyusun:</strong> Pria (Testis, Penis) | Wanita (Ovarium, Uterus, Tuba Fallopi).</p>
+                            <p><strong>Mekanisme Detail:</strong> Spermatogenesis di testis menghasilkan sperma, oogenesis di ovarium melahirkan ovum. Peleburan keduanya di tuba fallopi membentuk awal mata rantai baru kehidupan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="manusia-utuh" class="section-view">
+            <button class="btn-back" onclick="navigateHome()">← Kembali</button>
+            <div class="content-wrapper">
+                <h2>04. Manusia Utuh: Keunikan & Identitas</h2>
+                <div class="intro-quote">"Pada akhir orkestra, seluruh triliunan sel menyatu menjadi satu entitas mutlak: Dirimu, dengan segala keunikan yang tak berpola sama."</div>
+                <div class="materi-block">
+                    <p>Ketika seluruh sistem organ berpadu dan dikoordinasikan secara harmonis oleh sistem saraf dan endokrin, terciptalah satu **Organisme Utuh: Manusia**.</p>
+                    <h4>Genetika & DNA Individual</h4>
+                    <p>Meskipun secara anatomi struktur tubuh kita sama, setiap individu membawa variasi urutan basa nitrogen pada untaian <strong>DNA (Asam Deoksiribonukleat)</strong> yang berbeda di dalam kromosomnya. Gen-gen inilah yang mengekspresikan fenotip unik:</p>
+                    <ul class="custom-list">
+                        <li>Fisik: Sidik jari yang tak pernah sama, warna iris mata, bentuk wajah, dan tekstur rambut.</li>
+                        <li>Fisiologis: Golongan darah, ambang batas rasa sakit, hingga kecepatan metabolisme tubuh.</li>
+                        <li>Psikologis & Karakter: Kerentanan stres, kecenderungan sifat bawaan, hingga bagaimana cara kerja neuron membentuk kepribadian unik individual.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="homeostasis" class="section-view">
+            <button class="btn-back" onclick="navigateHome()">← Kembali</button>
+            <div class="content-wrapper">
+                <h2>05. Homeostasis & Sensorik: Keseimbangan Hidup</h2>
+                <div class="intro-quote">"Tubuh kita selalu mencari ketenangan di tengah dunia luar yang bising dan terus berubah-ubah."</div>
+                <div class="materi-block">
+                    <h4>Apa itu Homeostasis?</h4>
+                    <p>Homeostasis adalah mekanisme otomatis tubuh untuk mempertahankan kondisi internal yang stabil dan konstan agar sel-sel tetap bisa bertahan hidup. Tubuh kita bertindak seperti termostat otomatis raksasa. Jika suhu luar sangat dingin atau sangat panas, organ internal kita harus tetap berada di kisaran ideal $\pm$ 37°C.</p>
+                    
+                    <h4>Jalur Sensorik & Umpan Balik (Feedback Loop)</h4>
+                    <ul class="custom-list">
+                        <li><strong>Reseptor (Sensor):</strong> Panca indra kita mendeteksi perubahan lingkungan luar (seperti kulit mendeteksi panas).</li>
+                        <li><strong>Pusat Kendali (Otak/Hipotalamus):</strong> Menerima sinyal bahaya atau perubahan dan memutuskan tindakan koreksi.</li>
+                        <li><strong>Efektor (Pelaksana):</strong> Organ atau jaringan yang diperintah untuk bergerak melakukan perubahan (misalnya kelenjar keringat mulai memproduksi air untuk mendinginkan kulit).</li>
+                    </ul>
+                    <p>Mekanisme luar biasa ini memastikan kadar gula darah, tekanan osmosis cairan, dan tingkat keasaman (pH) darah kita selalu seimbang tanpa pernah kita sadari secara sadar.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="fase-hidup" class="section-view">
+            <button class="btn-back" onclick="navigateHome()">← Kembali</button>
+            <div class="content-wrapper">
+                <h2>06. Fase Kehidupan: The Art of Aging</h2>
+                <div class="intro-quote">"Waktu biologis terus berjalan, memahat anatomi kita dari fajar embrio hingga senja usia yang bijaksana."</div>
+                <div class="materi-block">
+                    <p>Setelah melalui gerbang pembuangan sperma dan sel telur, lalu melahirkan manusia utuh yang mandiri, anatomi tubuh kita tidak bersifat statis. Kita tunduk pada hukum waktu kronologis dan biologis melalui fase-fase berikut:</p>
+                    
+                    <h4>1. Fase Infant & Pertumbuhan (Fajar Kehidupan)</h4>
+                    <p>Fase pembelahan sel yang sangat masif. Tulang bayi yang awalnya berjumlah sekitar 300 (masih berupa tulang rawan fleksibel) perlahan menyatu menjadi 206 tulang keras seiring pertumbuhan massa otot dan perkembangan jaringan otak anak-anak.</p>
+
+                    <h4>2. Fase Maturitas / Dewasa (Puncak Orkestra)</h4>
+                    <p>Semua sistem organ mencapai efisiensi puncaknya. Kelenjar hormon reproduksi aktif sepenuhnya, kemampuan kognitif otak berada di tingkat plastisitas terbaik, dan struktur anatomi tubuh mencapai bentuk proporsional fungsional maksimal.</p>
+
+                    <h4>3. Fase Senesens / Penuaan (Senja yang Agung)</h4>
+                    <p>Secara alami, replikasi seluler mulai melambat akibat batas pembelahan sel (Hayflick Limit) dan pemendekan telomer DNA. Elastisitas kulit berkurang, laju filtrasi ginjal menurun, dan kapasitas vital paru-paru meredup. Ini bukan kerusakan malfungsi, melainkan babak akhir yang indah dari desain cetak biru biologis manusia untuk mengistirahatkan triliunan sel yang telah berjuang puluhan tahun di bumi.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="quote-ipa">“Lolos dari seleksi alam berpeluang 1 berbanding 300.000.000 sperma adalah bukti ilmiah bahwa kelahiranmu ke bumi adalah sebuah kemenangan mutlak.”</div>
+        <div class="signature">rjw_2026</div>
+    </footer>
+
+    <script>
+        function navigateTo(sectionId, themeClass) {
+            const currentActive = document.querySelector('.section-view.active');
+            const targetSection = document.getElementById(sectionId);
+            
+            if (currentActive) {
+                currentActive.style.opacity = '0';
+                currentActive.style.transform = 'translateY(-15px)';
+                
+                setTimeout(() => {
+                    currentActive.classList.remove('active');
+                    document.body.className = '';
+                    if (themeClass) document.body.classList.add(themeClass);
+                    
+                    targetSection.classList.add('active');
+                    void targetSection.offsetWidth; 
+                    targetSection.style.opacity = '1';
+                    targetSection.style.transform = 'translateY(0)';
+                    
+                    document.getElementById('main-header').style.display = 'none';
+                    window.scrollTo(0, 0);
+                }, 400);
+            }
+        }
+
+        function navigateHome() {
+            const currentActive = document.querySelector('.section-view.active');
+            const dashboard = document.getElementById('dashboard');
+            
+            if (currentActive) {
+                currentActive.style.opacity = '0';
+                currentActive.style.transform = 'translateY(15px)';
+                
+                setTimeout(() => {
+                    currentActive.classList.remove('active');
+                    document.body.className = '';
+                    
+                    document.getElementById('main-header').style.display = 'block';
+                    dashboard.classList.add('active');
+                    void dashboard.offsetWidth;
+                    dashboard.style.opacity = '1';
+                    dashboard.style.transform = 'translateY(0)';
+                    
+                    window.scrollTo(0, 0);
+                }, 400);
+            }
+        }
+
+        function switchSystem(systemKey, element) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+            
+            const currentContent = document.querySelector('.system-content.active');
+            const targetContent = document.getElementById('sys-' + systemKey);
+            
+            if (currentContent) {
+                currentContent.style.opacity = '0';
+                currentContent.style.transform = 'translateX(-10px)';
+                
+                setTimeout(() => {
+                    currentContent.classList.remove('active');
+                    targetContent.classList.add('active');
+                    void targetContent.offsetWidth;
+                    targetContent.style.opacity = '1';
+                    targetContent.style.transform = 'translateX(0)';
+                }, 250);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const sperms = document.querySelectorAll('.sperm');
+            sperms.forEach((sperm) => {
+                let randomDelay = Math.random() * 2;
+                let randomDuration = 2.5 + Math.random() * 2;
+                sperm.style.animationDelay = `${randomDelay}s`;
+                sperm.style.animationDuration = `${randomDuration}s`;
+            });
+        });
+
+        const styleSheet = document.styleSheets[0];
+        styleSheet.insertRule(`
+            @keyframes swim {
+                0% { transform: translateX(0) translateY(0) scale(0.8); opacity: 0.3; }
+                50% { transform: translateX(180px) translateY(-10px) scale(1.1); opacity: 0.8; }
+                100% { transform: translateX(450px) translateY(10px) scale(0.7); opacity: 0; }
+            }
+        `, styleSheet.cssRules.length);
+    </script>
+</body>
+</html>
